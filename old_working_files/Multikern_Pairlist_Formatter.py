@@ -2,20 +2,21 @@ from mojo.roboFont import CurrentFont, OpenFont
 from mojo.UI import GetFile
 from lib.UI.spaceCenter.glyphSequenceEditText import splitText
 
+# make a pairlist in metrics machine
+#     don't create mirror pairs, this tool will do that instead
 
-# use a reference font for
+# open a reference font, this tool will use it to get:
 #     glyph order
 #     kerning groups
 
-# open a standard mm pairlist
-#     sort pairlist by glyph order
-
-# create a multikern double pairlist
-#     get mirror flipped pair
-#     process mirror flipped pair into group then into key glyph
+# run this tool to make your mm pairlist into a multikern double pairlist
+#     sorts pairlist by glyph order (might be useful to have a kerning priority glyph order with key glyphs first)
+#     creates mirror flipped pairs AV -> AV and VA
+#     reprocess each pair by looking for the kerning group then:
+#        either getting a key glyph (see keyglyphs =)
+#        or the first group memeber according to the glyph order
 #     if mirror flipped pair already in list, add flag duplicate=True
 #     if mirror flipped pair meets no-no list, -> None None
-#     add mirror flipped pair to new list
 
 
 
@@ -55,7 +56,7 @@ class multikern_pairlist_formatter():
             # pair = splitText(pair, cmap)
             if len(pair) == 2:
                 if pair[0] in self.glyphOrder and pair[1] in self.glyphOrder:
-                    pairs.append(list(pair)) 
+                    pairs.append(list(pair))
         return pairs
 
     def saveFile(self, pairlist_file):

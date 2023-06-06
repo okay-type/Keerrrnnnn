@@ -6,15 +6,15 @@ goal: faster kerning process without sacrificing control
 - do all sources at once
 - do double pairs at once
 
-goal: more consitent kerning
+goal: more consistent kerning
 - all sources simultaneously help ensure spacing is consistent throughout family
-- smartly mirrored pairs help ensure spacing is consistent on symettrical pairs
-- reference glyphs help the gap between class kerning and completely seperate glyph kerning
+- smartly mirrored pairs help ensure spacing is consistent on symmetrical pairs
+- reference glyphs help the gap between class kerning and completely separate glyph kerning
 
 choices:
 - context string should be as simple as possible
 - control character spacing is the baseline for consistent kerning
-- some changes make sense, control characters can differ for defferent chunks of glyphs
+- some changes make sense, control characters can differ for different chunks of glyphs
 
 '''
 
@@ -31,7 +31,7 @@ open string in spacecenter with groups
     left group glyphs
     right group glyphs
 
-position update doesnt update kerning of glyphs in same group
+position update doesn't update kerning of glyphs in same group
 - get groups when building position data
 
 ADD

@@ -68,5 +68,5 @@ To load a pairlist: click the "Load Pairlist" button or drag the file onto the t
 There is little adjust panel between the ufo list and the kerning list. This is for when you want to make an adjustment to groups of ufos.
 - The radio buttons let you pick which group of UFOs. This can be "All" but you can also set groups two other ways:
   - "Checked" and "Unchecked" use the *️⃣ Wildcard checkboxes in the ufo list. The tool attempts to automatically check non-roman ufos and uncheck "Italic" ufos, but you can do something else.
-  - "Selected" and "Unselected" use the selected state of the items in the ufo list, useful for additional design parameters like width or optical size (I would select the normal width ufos and leave condenseds unselected).
+  - "Selected" and "Unselected" use the selected state of the items in the ufo list, useful for additional design parameters like width or optical size (I would select the normal width ufos and leave condensed unselected).
 

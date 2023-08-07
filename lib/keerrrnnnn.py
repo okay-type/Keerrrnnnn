@@ -191,7 +191,7 @@ class keerrrnnnn(Subscriber, WindowController):
         column = self.ui_metrics['column_width']*2/3
         line = self.ui_metrics['line']
 
-        self.w.lists = Group((-column, 0, -0, -line))
+        self.w.lists = Group((-column, 20, -0, -line))
 
         # vertical divider
         divide = screenH*-.333
@@ -261,8 +261,8 @@ class keerrrnnnn(Subscriber, WindowController):
             columnDescriptions=[
                 {'title': 'Left', 'width': w},
                 {'title': 'Right', 'width': w},
-                {'title': 'Seen', 'width': 20},
-                {'title': 'i', 'width': 20},
+                {'title': 'Seen', 'width': 15},
+                {'title': 'i', 'width': 25},
                 {'title': 'Flip L', 'width': 0},
                 {'title': 'Flip R', 'width': 0},
             ],
@@ -335,35 +335,40 @@ class keerrrnnnn(Subscriber, WindowController):
         # metric adjust shortcuts
         w = column/3*2-(line*2)
         metricnudge = self.w.lists.metricnudge = Group((column/3+line+15, divide-(line*3.5)-15, w, line*4))
+        metricnudge.metric_nudge_glyph_label = TextBox(
+            (0, 15, 34, line),
+            'Nudge',
+            sizeStyle='mini',
+        )
         metricnudge.metric_nudge_glyph = okEditText(
-            (0, 15, -0, line),
-            'Nudge Glyph Merics',
+            (35, 15, -0, line),
+            'glyphname',
             align='left',
             sizeStyle='mini',
         )
-        metricnudge.metric_nudge_pL = Button(
+        metricnudge.metric_nudge_plus_left = Button(
             (0, line+10, w/2, line),
-            '+ Right',
-            sizeStyle='mini',
-            callback=self.metric_nudge_pL,
-        )
-        metricnudge.metric_nudge_nL = Button(
-            (0, line+10, w/2, line*2.5),
-            '- Right',
-            sizeStyle='mini',
-            callback=self.metric_nudge_nL,
-        )
-        metricnudge.metric_nudge_pR = Button(
-            (w/2, line+10, w/2, line),
             '+ Left',
             sizeStyle='mini',
-            callback=self.metric_nudge_pR,
+            callback=self.metric_nudge_plus_left,
         )
-        metricnudge.metric_nudge_nR = Button(
-            (w/2, line+10, w/2, line*2.5),
+        metricnudge.metric_nudge_minus_left = Button(
+            (0, line*2+15, w/2, line),
             '- Left',
             sizeStyle='mini',
-            callback=self.metric_nudge_nR,
+            callback=self.metric_nudge_minus_left,
+        )
+        metricnudge.metric_nudge_plus_right = Button(
+            (w/2, line+10, w/2, line),
+            '+ Right',
+            sizeStyle='mini',
+            callback=self.metric_nudge_plus_right,
+        )
+        metricnudge.metric_nudge_minus_right = Button(
+            (w/2, line*2+15, w/2, line),
+            '- Right',
+            sizeStyle='mini',
+            callback=self.metric_nudge_minus_right,
         )
 
     def build_window_size_controls(self):
@@ -2466,16 +2471,16 @@ class keerrrnnnn(Subscriber, WindowController):
 
     # nudge metrics
 
-    def metric_nudge_nL(self, sender):
+    def metric_nudge_minus_left(self, sender):
         self.metric_nudge(-5, 'Left')
 
-    def metric_nudge_pL(self, sender):
+    def metric_nudge_plus_left(self, sender):
         self.metric_nudge(5, 'Left')
 
-    def metric_nudge_nR(self, sender):
+    def metric_nudge_minus_right(self, sender):
         self.metric_nudge(-5, 'Right')
 
-    def metric_nudge_pR(self, sender):
+    def metric_nudge_plus_right(self, sender):
         self.metric_nudge(5, 'Right')
 
     def metric_nudge(self, amount, side):

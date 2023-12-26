@@ -1,7 +1,0 @@
-.DS_Store
-*.pyc
-/_old
-/test
-/source
-.gitignore
-.gitattributes

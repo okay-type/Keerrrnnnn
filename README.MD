@@ -1,11 +1,13 @@
-# good luck making sense of this
+# Sharing with friends, message me if you're interested.
 
-Robofont Multikern
+Robofont Multikern - a basic extension to kern a family of ufo sources simultaneously
 
-Privately sharing with friends.
+---
 
 Update v1.0
-- Finally packaged this into a .roboFontExt but did nothing to make it more user friendly (message me and we can talk it over)
+- Finally packaged this into a .roboFontExt but did nothing to make it more user friendly
+
+---
 
 It's been a year since I've used this and details about how it works are fuzzy. Let's see...
 

@@ -3,3 +3,5 @@
 /_old
 /test
 /source
+.gitignore
+.gitattributes

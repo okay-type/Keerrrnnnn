@@ -4,6 +4,9 @@ Robofont Multikern
 
 Privately sharing with friends.
 
+Update v1.0
+- Finally packaged this into a .roboFontExt but did nothing to make it more user friendly (message me and we can talk it over)
+
 It's been a year since I've used this and details about how it works are fuzzy. Let's see...
 
 The preview strings are deliberately simple
@@ -18,6 +21,7 @@ Kerning limitations
 The control panel on the right-side is harder to explain
 - The tool is intended to be used with a gaming controller
 - I use enjoyable.app to turn controller button presses into keycodes
+  - enjoyable.app stopped working on the latest macos beta, enjoy2.app is a fork that works but does not import/export settings
 - This is all just setup for my preferences and my controller.
 - You can dig through keyDown() to see the keycodes and logic
   - up/down - change the focused ufo (indicated by a white background)

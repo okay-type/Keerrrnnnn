@@ -1499,6 +1499,20 @@ class keerrrnnnn(Subscriber, WindowController):
         optionDown = extractNSEvent(event)['optionDown']
         controlDown = extractNSEvent(event)['controlDown']
         keycode = event.keyCode()
+        # print(keycode)
+
+        # left      left arrow      123
+        # right     right arrow     124
+        # down      down arrow      125
+        # up        up arrow        126
+        # select    f13             105
+        # start     f14             107
+        # y         f17             64
+        # x         comma           43
+        # b         f15             113
+        # a         period          47
+        # left sh   option
+        # right sh  shift
 
         # increment focus
         # up/down with arrow keys

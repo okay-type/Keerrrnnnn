@@ -1,4 +1,5 @@
 .DS_Store
 *.pyc
-/old_working_files
+/_old
 /test
+/source

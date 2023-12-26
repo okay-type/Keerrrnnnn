@@ -4,28 +4,22 @@ Robofont Multikern - a basic extension to kern a family of ufo sources simultane
 
 ---
 
-Update v1.0
+## Update v1.0
+
 - Finally packaged this into a .roboFontExt but did nothing to make it more user friendly
 
 ---
 
-It's been a year since I've used this and details about how it works are fuzzy. Let's see...
-
-The preview strings are deliberately simple
-- There is a kerning pair "AB", and it's mirror "BA"
-- There are very simple control strings before, between, and after the mirrored kerning pairs "HHH" "AB" "HHH" "BA" "HHH"
-- There is a big(ish) text string and a smaller duplicate of this string. It's setup this way for the fonts I build this to kern. It would be a good idea to adjust them to suit the target size of your design (I'm guessing this was built in a complicated way, sorry).
-
-Kerning limitations
+## Limitations
+- I made this for kerning one specific font. It's usefulness in kerning other fonts will be limited. Hoping to add some more universal features and flexibility in the future.
 - This is setup to kern in increments of 5. Not hard to change that, but WWJDD?
-- Kerning exceptions are complicated and I didn't figure out how to handle them. Instead I put problematic glyphs in their own groups and used the reference glyphs (below) to keep them in line with their base glyphs. Wouldn't work for every design but it would good enough for the the font I was working on.
+- Kerning exceptions are complicated and I didn't bother to figure out how to handle them. Instead I put problematic glyphs in their own groups and used the reference glyphs (below) to keep them in line with their base glyphs. Not a great solution.
 
-The control panel on the right-side is harder to explain
-- The tool is intended to be used with a gaming controller
+## The tool is intended to be used with a gaming controller
 - I use enjoyable.app to turn controller button presses into keycodes
-  - enjoyable.app stopped working on the latest macos beta, enjoy2.app is a fork that works but does not import/export settings
-- This is all just setup for my preferences and my controller.
-- You can dig through keyDown() to see the keycodes and logic
+- Nevermind, enjoyable.app stopped working on the latest macos beta. enjoy2.app is a fork that works but does not import/export settings. Still trying to figure out an integrated solution.
+- This is hard coded for my preferences and my controller. It shouldn't be hard to reverse engineer and adjust to your own needs.
+- Jump to the keyDown() function to see the keycodes and logic
   - up/down - change the focused ufo (indicated by a white background)
   - select (f13) - flip which pair is focused, AB or BA
   - a/x (./,) - next/previous pair
@@ -36,43 +30,53 @@ The control panel on the right-side is harder to explain
   - b (f15) - copy the kerning value of the unfocused pair to the focused pair
   - b+shift (f15+shift) - copy the kerning value of the focused pair to the unfocused pair
   - y (f17) - zero the focused pair
-  - (s) - save ufos
+  - (s) - save UFOs
 
-At the bottom of the control panel is a global control
-- It shows the glyph names of the current mirror pair
-- You can click the arrows to adjust every ufo
-- You can enter a value in the ? box to apply it to every ufo
-- I don't remember what the 0 is for
-- Reference glyphs:
-  - If you click one of the greyed out glyph names at the bottom, you can type in the name of a reference glyph
-  - This will show you the kerning values of that reference glyph for each ufo
-  - e.g.: if you're kerning 'T agrave' you can set 'a' as a reference glyph for 'agrave' and see the kerning values for 'T a'
-  - Clicking the up-triangle will copy that reference pair's kerning value to the current pair
-
-
-To load fonts: drag ufos into the bottom-right list area.
-- There are some checkbox controls:
-  - *️⃣ Wildcard - Used by the kerning transformation panel just above
-  - 🔤 Spacecenter - Open (or close) a spacecenter for this UFO
-  - 🔡 Font Overview - Open (or close) the font overview for this UFO
-- You can also select groups of ufos on the list to use transformation panel just above
-- The [Sort] button autosorts the files. You can drag them to adjust. Forgot exactly how this works...
-- The [Reverse] button flips the order of the files. Useful when autosort is backwards.
+## To load fonts
+- Drag UFOs files into the bottom-right list area
+- You can drag the list to adjust
+- [Sort] autosorts the files.
+- [Reverse] flips the order of the files. Useful when autosort is backwards.
 - [Save UFOs] will save your files. Occasionally useful.
+- There are some checkbox controls in the list:
+  - *️⃣ Wildcard - Select which fonts are used by the transformation panel just above (romans are automatically checked, italics are automatically unchecked)
+  - 🔤 Spacecenter - Open (check) or Close (uncheck) a spacecenter for this UFO
+  - 🔡 Font Overview - Open (check) or Close (uncheck) the font overview for this UFO
+- You can also select groups of UFOs on the list to use transformation panel just above (e.g. select the normal widths and leave condensed unselected)
+- Open UFOs are automatically added (not recommended)
 
-To load a pairlist: click the "Load Pairlist" button or drag the file onto the top-right list area.
-- Multikern pairlists are based on the Metrics Machine format
-- You should be able to use a Metrics Machine pairlist and it will load as leftside-rightside and rightside-leftside
-- You can also make pairlists with different glyphs for the leftside-rightside and rightside-leftside pairs (useful for group kerning). e.g.:
+## To load a pairlist
+- Use Metrics Machine to generate pairlists
+- Click the "Load Pairlist" button or drag the file onto the top-right list area
+- You can also make custom mirrored pairlists with different glyphs for the leftside-rightside and rightside-leftside pairs (useful for group kerning). e.g.:
   - H H H H
   - H O O H
   - H A A H
   - H J U H
   - H M M H
+- You can use /helpers/Multikern_Pairlist_Formatter.py to turn a MM pairlist into a mirror-pair pairlist (this does some useful things like compressed groups in a way that prioritizes key glyphs and sorts pairs by the glyph order of a reference UFO)
 - There were some other things in here that were useful but have been forgotten.
 
-There is little adjust panel between the ufo list and the kerning list. This is for when you want to make an adjustment to groups of ufos.
-- The radio buttons let you pick which group of UFOs. This can be "All" but you can also set groups two other ways:
-  - "Checked" and "Unchecked" use the *️⃣ Wildcard checkboxes in the ufo list. The tool attempts to automatically check non-roman ufos and uncheck "Italic" ufos, but you can do something else.
-  - "Selected" and "Unselected" use the selected state of the items in the ufo list, useful for additional design parameters like width or optical size (I would select the normal width ufos and leave condensed unselected).
+---
+
+## Left Column - Global Adjustments
+- At the bottom of the left UI panel is useful panel for global adjustments
+- It shows the glyph names of the current kerning pairs
+- Clicking the arrows will nudge the kerning value in every UFO
+- You can enter a numeric value in the ? box to apply it to every UFO
+- Clicking the 0 will reset the kerning pair in every UFO
+- Holding a modifier will apply these changes to a subset of every UFO
+  - ⌘ will only effect the UFOs selected in the file list
+  - ⌘⌥ will only effect the UFOs not selected in the file list
+  - ⌃ will only effect the UFOs with *️⃣ Wildcard checks in the file list
+  - ⌃⌥ will only effect the UFOs without *️⃣ Wildcard checks in the file list
+
+## Left Column - Reference glyphs
+- You can set reference glyphs to see their kerning values
+  - To set/unset: click one of the greyed out glyph names in the global adjustments panel and type in the name of a reference glyph
+  - This will show you the kerning values of that reference glyph for each ufo
+  - e.g.: if you're kerning 'T agrave' you can set 'a' as a reference glyph for 'agrave' and see the kerning values for 'T a'
+  - If a reference glyph kerning value doesn't match, it will appear red
+  - Clicking the up-triangle will copy the reference pair's kerning value to the current pair
+
 

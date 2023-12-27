@@ -4,8 +4,9 @@ Robofont Multikern - a basic extension to kern a family of ufo sources simultane
 
 ---
 
-## Update v1.0
+## Update v1.1
 
+- Remember window size and position
 - Finally packaged this into a .roboFontExt but did nothing to make it more user friendly
 
 ---

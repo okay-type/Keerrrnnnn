@@ -81,8 +81,11 @@ class keerrrnnnn(Subscriber, WindowController):
         set_first_responder(self.w.merzLineView.getNSView())
 
     def load_preferences(self):
+        (screenX, screenY), (screenW, screenH) = NSScreen.mainScreen().visibleFrame()
         initialDefaults = {
+            data.extension_key + '.posSize': (0, 0, screenW*.75, screenH),
             data.extension_key + '.reference_glyphs': {},
+            data.extension_key + '.pair_current': ['O', 'K'],
             data.extension_key + '.pair_current': ['O', 'K'],
         }
         registerExtensionDefaults(initialDefaults)
@@ -148,7 +151,7 @@ class keerrrnnnn(Subscriber, WindowController):
 
     def build_window(self):
 
-        (screenX, screenY), (screenW, screenH) = NSScreen.mainScreen().visibleFrame()
+        screenX, screenY, screenW, screenH = getExtensionDefault(data.extension_key + '.posSize')
 
         self.ui_metrics = {
             'row_height': self.size_big*self.lineheight,
@@ -159,9 +162,9 @@ class keerrrnnnn(Subscriber, WindowController):
             'ypos': self.size_big*self.lineheight*.5,  # row_height*.5 - this is the intial value... +(i*row_height) for row
         }
 
+        # w.setFrame_display_animate_(self.posSize, True, False)
         self.w = Window(
-            (screenW*.125, 0, screenW*.75, screenH),
-            # (0, 0, screenW*.75, screenH),
+            (screenX, screenY, screenW, screenH),
             'Keerrrnnnn',
             minSize=(self.ui_metrics['column_width']*3, screenH/3),
             maxSize=None,
@@ -1424,6 +1427,8 @@ class keerrrnnnn(Subscriber, WindowController):
     # subscriber events
 
     def window_should_close(self, sender):
+        (wminx, wminy), (areaW, areaH) = self.w.getNSWindow().frame()
+        setExtensionDefault(data.extension_key + '.posSize', (wminx, wminy, areaW, areaH))
         if self.w.lists.fontlist_save.isEnabled() is True:
             q = AskYesNoCancel('You have unsaved changes. Want to save these ufos before closing?')
             if q == -1:
@@ -1449,6 +1454,8 @@ class keerrrnnnn(Subscriber, WindowController):
             return
         savepair = [self.pairlist[pairindex]['Left'], self.pairlist[pairindex]['Right']]
         setExtensionDefault(data.extension_key + '.pair_current', savepair)
+
+
 
     def fontDocumentDidOpenNew(self, notification):
         f = notification['font']

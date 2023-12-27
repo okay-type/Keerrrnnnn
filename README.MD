@@ -16,8 +16,7 @@ Robofont Multikern - a basic extension to kern a family of ufo sources simultane
 - Kerning exceptions are complicated and I didn't bother to figure out how to handle them. Instead I put problematic glyphs in their own groups and used the reference glyphs (below) to keep them in line with their base glyphs. Not a great solution.
 
 ## The tool is intended to be used with a gaming controller
-- I use enjoyable.app to turn controller button presses into keycodes
-- Nevermind, enjoyable.app stopped working on the latest macos beta. enjoy2.app is a fork that works but does not import/export settings. Still trying to figure out an integrated solution.
+- I use enjoyable.app to turn controller button presses into keycodes (see /helpers/SN30_Mapping.enjoyable)
 - This is hard coded for my preferences and my controller. It shouldn't be hard to reverse engineer and adjust to your own needs.
 - Jump to the keyDown() function to see the keycodes and logic
   - up/down - change the focused ufo (indicated by a white background)

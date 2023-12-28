@@ -11,9 +11,11 @@ from AppKit import NSEvent, NSShiftKeyMask, NSCommandKeyMask, NSAlternateKeyMask
     # sort by the glyph order of the reference font
         # sometimes I use a ufo with a custom glyph order
         # sometimes I use a pairlist from an different project
-    # do key glyphs first
-        # there is a hard-coded list of key glyphs that are useful to see first
-        # it's at the top of the class, edit away
+    # Replace with Key Glyphs
+        # remember fontlab's key glyphs? those were sometimes useful
+        # there is a hard-coded list of key glyphs, if a kerning pair includes a glyph in the same class as a key glyph, it will use they key glyph
+    # Sort key glyphs first
+        # key glyphs are usually control characters, so it can be useful to look at them before other pairs
     # make mirror pairs
         # this will create a list in AB BA format
     # make open/close pairs
@@ -23,7 +25,7 @@ from AppKit import NSEvent, NSShiftKeyMask, NSCommandKeyMask, NSAlternateKeyMask
 
 class multikern_pairlist_formatter():
 
-    keyglyphs = 'H O n o l period bracketleft bracketright zero zero.lp zero.sc h.sc o.sc endash bracketleft.uc bracketright.uc h.sups n.sups o.sups'.split(' ')
+    keyglyphs = 'H O n o l period bracketleft bracketright zero zero.lp zero.sc h.sc o.sc endash bracketleft.uc bracketright.uc h.sups n.sups o.sups zero.sups'.split(' ')
 
     def __init__(self):
         self.temp_source_paths = []
@@ -44,17 +46,18 @@ class multikern_pairlist_formatter():
         self.w.openreferencefont = Button((5, u*.2, -5, u), 'Open Reference Font', callback=self.openreferencefont)
         self.w.versionnew = TextBox((5, u*1.4, -5, u*2), reference_font)
 
-        self.w.option_sort = CheckBox((5, u*4.25, -5, u), 'Sort by Reference Glyph Order', value=True, callback=self.checks)
-        self.w.option_key = CheckBox((5, u*5.25, -5, u), 'Do Key Glyphs First', value=True, callback=self.checks)
-        self.w.option_mirror = CheckBox((5, u*6.25, -5, u), 'Make Mirror Pairs', value=True, callback=self.checks)
-        self.w.option_openclose = CheckBox((5, u*7.25, -5, u), 'Make Open/Close Pairs ', value=True, callback=self.checks)
+        self.w.option_sort = CheckBox((5, u*4, -5, u), 'Sort by Reference Glyph Order', value=True, callback=self.checks)
+        self.w.option_usekey = CheckBox((5, u*5, -5, u), 'Replace with Key Glyphs', value=True, callback=self.checks)
+        self.w.option_keysort = CheckBox((5, u*6, -5, u), 'Sort Key Glyphs First', value=True, callback=self.checks)
+        self.w.option_mirror = CheckBox((5, u*7, -5, u), 'Make Mirror Pairs', value=True, callback=self.checks)
+        self.w.option_openclose = CheckBox((5, u*8, -5, u), 'Make Open/Close Pairs ', value=True, callback=self.checks)
         self.w.go = Button((5, u*9.5, -5, u), 'Go!', callback=self.format)
         if self.font is None:
             self.w.go.enable(False)
 
         self.w.open()
 
-        self.checkboxes = [self.w.option_sort, self.w.option_key, self.w.option_mirror, self.w.option_openclose]
+        self.checkboxes = [self.w.option_sort, self.w.option_usekey, self.w.option_keysort, self.w.option_mirror, self.w.option_openclose]
         self.w.open()
 
     def checks(self, sender):
@@ -77,11 +80,46 @@ class multikern_pairlist_formatter():
 
         self.glyphOrder = self.font.glyphOrder
 
-        if self.w.option_key.get() == True:
+        if self.w.option_keysort.get() == True:
             self.sort_keyglyphs()
 
         pairlist_file = GetFile(message='Select a pairlist to format', fileTypes=['txt'])
         self.pairs = self.openFile(pairlist_file)
+
+        if self.w.option_usekey.get() == True:
+            repairs = []
+            for pair in self.pairs:
+                pair[0] = self.get_kern_group(self.font, pair[0], 'left')
+                pair[1] = self.get_kern_group(self.font, pair[1], 'right')
+                left = pair[0]
+                right = pair[1]
+                if 'kern1' in left:
+                    leftgroupglyphs = self.font.groups[left]
+                    for keyglyph in self.keyglyphs:
+                        if keyglyph in leftgroupglyphs:
+                            left = keyglyph
+                            break
+                    if left == pair[0]:
+                        for g in self.glyphOrder:
+                            if g in leftgroupglyphs:
+                                left = g
+                                break
+                if 'kern2' in right:
+                    rightgroupglyphs = self.font.groups[right]
+                    for keyglyph in self.keyglyphs:
+                        if keyglyph in rightgroupglyphs:
+                            right = keyglyph
+                            break
+                    if right == pair[1]:
+                        for g in self.glyphOrder:
+                            if g in rightgroupglyphs:
+                                right = g
+                                break
+                pair = [left, right]
+                if pair not in repairs:
+                    repairs.append(pair)
+            self.pairs = repairs
+
 
         if self.w.option_sort.get() == True:
             self.pairlist_sort_by_glyphorder()

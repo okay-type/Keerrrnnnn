@@ -125,6 +125,11 @@ class multikern_pairlist_formatter():
                     line += str(pair[1][1]) + ' '
                 if pair[2]:
                     line += str(pair[2]) + ' '
+                line.replace('  ',' ')
+                line.replace('  ',' ')
+                line.replace('  ',' ')
+                line.replace('  ',' ')
+                line = line.strip()
                 line += '\n'
                 newfile.write(line)
         print('saved multikern pairlist file as', save_file_name)

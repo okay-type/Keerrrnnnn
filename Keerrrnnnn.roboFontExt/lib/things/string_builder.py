@@ -95,13 +95,18 @@ def string_builder(pair_current, pair_flipped, ufolist):
     # check if fractions
     H = 'H'
     if '.numr' in pair_current[0] and '.numr' in pair_current[1]:
-        text = [H, H, H, 'zero.numr', 'zero.numr', pair_current[0], pair_current[1], H, H, pair_flipped[0], pair_flipped[1], 'zero.numr', 'zero.numr', H, H, H]
+        text = [H, H, H, 'zero.numr', 'zero.numr', pair_current[0], pair_current[1], 'zero.numr', 'zero.numr', pair_flipped[0], pair_flipped[1], 'zero.numr', 'zero.numr', H, H, H]
     if '.dnom' in pair_current[0] and '.dnom' in pair_current[1]:
-        text = [H, H, H, 'zero.dnom', 'zero.dnom', pair_current[0], pair_current[1], H, H, pair_flipped[0], pair_flipped[1], 'zero.dnom', 'zero.dnom', H, H, H]
+        text = [H, H, H, 'zero.dnom', 'zero.dnom', pair_current[0], pair_current[1], 'zero.dnom', 'zero.dnom', pair_flipped[0], pair_flipped[1], 'zero.dnom', 'zero.dnom', H, H, H]
+
     if '.numr' in pair_current[1] and '.numr' not in pair_current[0]:
         text = [H, H, H, H, H, pair_current[0], pair_current[1], 'fraction', pair_flipped[0], pair_flipped[1], H, H, H, H, H]
+
     if '.numr' in pair_current[0] and 'fraction' in pair_current[1]:
-        text = [H, H, H, H, 'zero.numr', 'zero.numr', pair_current[0], pair_current[1], pair_flipped[1], 'zero.dnom', 'zero.dnom',H, H, H, H]
+        text = [H, H, H, H, 'zero.numr', 'zero.numr', pair_current[0], pair_current[1], 'zero.dnom', 'zero.dnom', H, H, 'zero.numr', 'zero.numr', pair_flipped[0], pair_flipped[1].replace('numr', 'dnom'), 'zero.dnom', 'zero.dnom',H, H, H, H]
+
+    if 'fraction' in pair_current[0] and '.dnom' in pair_current[1]:
+        text = [H, H, H, H, 'zero.numr', 'zero.numr', pair_current[0], pair_current[1], 'zero.dnom', 'zero.dnom', H, H, 'zero.numr', 'zero.numr', pair_flipped[0].replace('dnom', 'numr'), pair_flipped[1], 'zero.dnom', 'zero.dnom',H, H, H, H]
 
     return text
 
